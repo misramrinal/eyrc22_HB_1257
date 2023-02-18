@@ -3,7 +3,7 @@
     
     <arg
 			name="world_name"
-			value="$(find hola_task2)/worlds/grid-2.world"
+			value="$(find hola_task2)/worlds/hola_camera.world"
 		/>
   </include>
   <node
