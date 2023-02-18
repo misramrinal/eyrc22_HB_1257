@@ -17,31 +17,33 @@ class main():
         
         rospy.init_node('listener', anonymous=True)
 
+        #subscribing to required topics
         rospy.Subscriber('/right_wheel_force', Wrench, self.callback_right)
         rospy.Subscriber('/front_wheel_force', Wrench, self.callback_front)
         rospy.Subscriber('/left_wheel_force', Wrench, self.callback_left)
-	    # rospy.Subscriber('/front_wheel_force', Wrench, self.callback_front)
-	    # rospy.Subscriber('/left_wheel_force', Wrench, self.callback_left)
+
+        # initialising socket object
         self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
         print("UDP target IP: %s" % UDP_IP)
         print("UDP target port: %s" % UDP_PORT)
 
         while not rospy.is_shutdown():
-            right = round(self.right_x,1)
-            right = right.__str__()
+            right = round(self.right_x,2)   # rounding of the value to two decimal places
+            right = right.__str__()         # converting the float data type to string 
 
-            front = round(self.front_x,1)
+            front = round(self.front_x,2)
             front = front.__str__()
 
-            left = round(self.left_x,1)
+            left = round(self.left_x,2)
             left = left.__str__()
 
-            MESSAGE = right + ',' + front + ',' + left
+            MESSAGE = right + ',' + front + ',' + left  # concatinating the values of front, left, and right wheel and assigning it to MESSAGE
             print(MESSAGE)
-            self.sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))
+            self.sock.sendto(MESSAGE.encode(), (UDP_IP, UDP_PORT))  # encoding and sending the message through udp
 
     def callback_right(self,msg1):
-        self.right_x = msg1.force.x
+        self.right_x = msg1.force.x 
 
     def callback_front(self,msg2):
         self.front_x = msg2.force.x
