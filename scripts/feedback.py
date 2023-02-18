@@ -60,8 +60,9 @@ class main:
         
         self.current_frame = cv2.resize(br_frame, (500, 500), interpolation=cv2.INTER_LINEAR)
 
-        marker_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
-        param_markers = cv2.aruco.DetectorParameters_create()
+        marker_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50) #use marker_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50) if using latest version of open-cv
+
+        param_markers = cv2.aruco.DetectorParameters_create() #use param_markers = cv2.aruco.DetectorParameters() if using latest version of open-cv
 		
         marker_corners, marker_IDs, reject = cv2.aruco.detectMarkers(
             self.current_frame, marker_dict, parameters=param_markers
