@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+# Team ID:		[ HB_1257 ]
+# Author List:		[ Mrinal Misra]
+# Filename:		udp_go_to_goal.py
+# Functions:	main, callback_right, callback_front, callback_left
+
+# Nodes:		subscribing node: front_wheel_force, right_wheel_force, left_wheel_force
+
+
+################### IMPORT MODULES #######################
 import rospy
 import socket
 from geometry_msgs.msg import Twist
