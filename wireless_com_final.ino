@@ -5,20 +5,20 @@
 Ticker blinker;
  
 // Set WiFi credentials
-#define WIFI_SSID "Sovit"
-#define WIFI_PASS "123123123"
+#define WIFI_SSID "Mrinal"
+#define WIFI_PASS "mrinal1729"
 #define UDP_PORT 4210
-AccelStepper motor1(1,16,5);//D0 AND D1
-AccelStepper motor2(1,4,0);//D2 AND D3
-AccelStepper motor3(1,14,12);//D5 AND D6
+AccelStepper motor1(1,26,25);//D0 AND D1
+AccelStepper motor2(1,14,12);//D2 AND D3
+AccelStepper motor3(1,13,16);//D5 AND D6
 int i,k=0;
-String s[3];
-float v1,v2,v3;
+int s[3];
+int v1,v2,v3;
 
 // UDP
 WiFiUDP UDP;
 char packet[255];
-char reply[] = "Packet received!";
+char *msg;
  
 void setup() {
   // Setup serial port
@@ -66,29 +66,43 @@ void loop() {
     {
       packet[len] = '\0';
     }
-    Serial.print("Packet received: ");
-    Serial.println(packet);
-    for(i=0;i<255;i++)
-    {
-//      if(packet[i]==' ')
-//      break;
-      if(packet[i]==',')
-      k++;
-      else
-      s[k]=s[k]+packet[i];
-     
-     
-    }
+//    Serial.print("Packet received: ");
+//    Serial.println(packet);
+//    for(i=0;i<255;i++)
+//    {
+////      if(packet[i]==' ')
+////      break;
+//      if(packet[i]==',')
+//      k++;
+//      else
+//      s[k]=s[k]+packet[i];
+//    }
+
+
+msg = strtok(packet,",");
+int i =0;
+while(msg!=NULL)
+{
+  s[i]=atoi(msg);
+  msg=strtok(NULL,",");
+  i++;
+}
+
+
+
+
+
+
     k=0;
-    v1=100*(s[0].toFloat());
-    v2=100*(s[1].toFloat());
-    v3=100*(s[2].toFloat());
-    s[0]="";
-    s[1]="";
-    s[2]="";
-    Serial.println(v1);
-    Serial.println(v2);
-    Serial.println(v3);
+    v1=s[0];
+    v2=s[1];
+    v3=s[2];
+    
+    
+//    Serial.println(v1);
+//    Serial.println(v2);
+//    Serial.println(v3);
+//    delay(150);
    
     motor1.setSpeed(v1);
     motor2.setSpeed(v2);
@@ -100,9 +114,9 @@ void loop() {
 //    
 
     // Send return packet
-    UDP.beginPacket(UDP.remoteIP(), UDP.remotePort());
-    UDP.write(reply);
-    UDP.endPacket();
+//    UDP.beginPacket(UDP.remoteIP(), UDP.remotePort());
+//    UDP.write(reply);
+//    UDP.endPacket();
 
   }
 
